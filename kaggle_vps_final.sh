@@ -369,13 +369,18 @@ def serve_files(filename):
     return send_from_directory('/kaggle/working', filename)
 
 if __name__ == '__main__':
+    import socket
+    notebook_host = socket.gethostname()
+    port = 8080
+    proxy_url = f"https://{notebook_host}-{port}.proxy.kaggle.net/"
+    
     print("🚀 Kaggle VPS Control Panel Starting...")
-    print("📊 Web Interface: http://localhost:8080")
-    print("🔧 API Endpoints: /api/system, /api/backup, /api/command")
-    print("📁 File Access: /files/")
+    print(f"🌍 Web Interface: {proxy_url}")
+    print(f"🔧 API Endpoints: {proxy_url}api/system")
+    print(f"📁 File Access: {proxy_url}files/")
     print("=" * 50)
     
-    app.run(host='0.0.0.0', port=8080, debug=False, threaded=True)
+    app.run(host='0.0.0.0', port=port, debug=False, threaded=True)
 BACKEND_EOF
 
 log "✅ VPS backend created"
